@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+	
+	<!-- 어노테이션을 이용한 bean 생성을 위한 설정 -->
+	<context:annotation-config />
+	<!-- 자동으로 bean을 생성할 패키지를 위한 설정 -->
+	<context:component-scan base-package="db.hibernate" />
+	<!-- 트랜잭션을 어노테이션을 이용해서 사용할 수 있도록 해주는 설정 -->
+	<tx:annotation-driven/>
+	
+	<!-- DataSource -->
+	<!-- 스프링에서 데이터베이스를 사용할 때 접속 정보를 저장할 bean -->
+	<bean class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+	id="dataSource">
+		<!-- 데이터베이스 종류 -->
+		<property name="driverClassName"
+		value="oracle.jdbc.driver.OracleDriver"/>
+		<!-- 데이터베이스 위치 -->
+		<property name="url"
+		value="jdbc:oracle:thin:@211.183.6.60:1521:xe" />
+		<!-- 계정과 비밀번호 -->
+		<property name="username" value="user00" />
+		<property name="password" value="user00" />
+	</bean>
+	
+	<!-- 하이버네이트 연동 Bean 생성 -->
+	<bean class="org.springframework.orm.hibernate5.LocalSessionFactoryBean"
+	id="sessionFactory">
+		<property name="dataSource" ref="dataSource" />
+		<!-- 하이버네이트 설정 파일 등록 
+		설정 파일이 여러 개 이면 value를 추가-->
+		<property name="mappingResources">
+			<list>
+				<value>db/hibernate/dao/good.hbm.xml</value>
+			</list>
+		</property>
+		<!-- 사용할 데이터베이스 종류 설정
+		데이터베이스 종류 별로 고정된 값 -->
+		<property name="hibernateProperties">
+			<value>
+				hibernate.dialect = org.hibernate.dialect.Oracle10gDialect
+			</value>
+		</property>
+	</bean>
+	
+	<!-- 하이버네이트 트랜잭션 사용 bean -->
+	<bean 
+	class="org.springframework.orm.hibernate5.HibernateTransactionManager"
+	id="transactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<bean 
+	class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
+	
+</beans>
+
+
+
+
+
+
+
