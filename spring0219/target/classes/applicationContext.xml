@@ -2,8 +2,10 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 
 	<!-- 스프링에서 데이터베이스를 사용할 때 접속 정보를 저장할 bean -->
 	<bean class="org.springframework.jdbc.datasource.DriverManagerDataSource"
@@ -36,6 +38,15 @@
 	<context:annotation-config />
 	<!-- Bean 자동생성 패키지 등록 -->
 	<context:component-scan base-package="db" />
+	
+	<!-- MyBatis 트랜잭션 적용을 위한 클래스의 객체 생성 -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<!-- 트랜잭션을 어노테이션으로 설정하기 위한 설정 -->
+	<tx:annotation-driven transaction-manager = "transactionManager"/>
 </beans>
 
 

@@ -1,5 +1,7 @@
 package db.mybatis.service;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +16,7 @@ public class GoodService {
 	private GoodDao goodDao;
 	
 	//데이터를 삽입하는 메소드
+	@Transactional //Manual Commit이 적용되고 메소드 수행도중 예외가 발생하면 rollback
 	public int insertGood(Good good) {
 		//동일한 데이터를 2번 삽입 - 예외발생
 		goodDao.insertGood(good);
