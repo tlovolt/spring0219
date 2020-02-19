@@ -1,5 +1,7 @@
 package db.hibernate;
 
+import java.util.List;
+
 import org.springframework.context.support.GenericXmlApplicationContext;
 
 import db.hibernate.dao.GoodDao;
@@ -14,10 +16,16 @@ public class HibernateMain {
 		
 		GoodDao dao = context.getBean(GoodDao.class);
 		
-		Good good = new Good();
-		good.setCode(201);
-
-		dao.deleteGood(good);
+		
+		List<Good> list = dao.allGood();
+		for(Good good : list) {
+			System.err.println(good);
+		}
+		
+		
+		Good good = dao.getGood(2);
+		System.out.println(good);
+		
 		
 		context.close();
 	}

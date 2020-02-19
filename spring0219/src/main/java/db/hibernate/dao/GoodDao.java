@@ -1,5 +1,7 @@
 package db.hibernate.dao;
 
+import java.util.List;
+
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -31,6 +33,30 @@ public class GoodDao {
 	@Transactional
 	public void deleteGood(Good good) {
 		sessionFactory.getCurrentSession().delete(good);
+	}
+	
+	//테이블의 데이터를 전부 가져오는 메소드
+	@Transactional
+	public List<Good> allGood(){
+		//Good 클래스와 연결된 테이블의 모든 데이터 찾아오기
+		//return sessionFactory.getCurrentSession().createCriteria(Good.class).list();
+		
+		//SQL을 이용해서 데이터 가져오기
+		//메소드의 리턴 값을 가지고 다른 메소드를 호출하는 것을
+		//메소드 체이닝이라고 합니다.
+		//변수를 만들지 않고 메소드 호출을 처리하기 위해서 사용
+		return sessionFactory
+				.getCurrentSession()
+				.createSQLQuery("select * from goods")
+				.addEntity(Good.class)
+				.getResultList();
+	}
+	
+	//code를 가지고 하나의 행을 찾아오는 메소드
+	@Transactional
+	public Good getGood(int code){
+		return sessionFactory.getCurrentSession()
+				.get(Good.class, code);
 	}
 }
 
