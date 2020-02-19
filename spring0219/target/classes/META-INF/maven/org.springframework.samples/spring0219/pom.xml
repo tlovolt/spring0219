@@ -28,6 +28,8 @@
 
 	</properties>
 
+	<!-- 중앙 저장소 이외의 곳에서 라이브러리를 다운로드 받을 때
+	다운로드 받는 위치를 설정하는 태그 -->
 	<repositories>
 		<repository>
 			<id>oracle</id>
@@ -35,7 +37,7 @@
 			<url>http://maven.jahia.org/maven2</url>
 		</repository>
 	</repositories>
-
+	<!-- 다운로드 받아 설치할 라이브러리 : 의존성 설정 -->
 	<dependencies>
 		<!-- Spring Database -->
 		<dependency>
