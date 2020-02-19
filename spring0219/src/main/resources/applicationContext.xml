@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 
 	<!-- 스프링에서 데이터베이스를 사용할 때 접속 정보를 저장할 bean -->
 	<bean class="org.springframework.jdbc.datasource.DriverManagerDataSource"
@@ -30,7 +32,10 @@
 		value="db.mybatis.dao.GoodDao"/>
 	</bean>
 
-	
+	<!-- 어노테이션 설정을 사용할 수 있도록 해주는 태그 -->
+	<context:annotation-config />
+	<!-- Bean 자동생성 패키지 등록 -->
+	<context:component-scan base-package="db" />
 </beans>
 
 
